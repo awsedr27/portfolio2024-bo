@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.portfolioBo.category.dao.CategoryDao">
+
+	<select id="selectCategory" parameterType="Integer" resultType="com.portfolioBo.category.dto.CategoryDto">
+        SELECT 
+			category_id,
+			name,
+			description,
+			use_yn,
+			create_date,
+			modify_date
+        FROM 
+            category
+        WHERE category_id=#{categoryId}
+    </select>
+
+	<select id="selectActiveCategoryList" resultType="com.portfolioBo.category.dto.CategoryDto$ActiveCategoryListResult">
+        SELECT 
+			category_id,
+			name
+        FROM 
+            category
+        WHERE use_yn='Y'
+    </select>
+    
+    	<select id="selectActiveCategory" parameterType="Int" resultType="com.portfolioBo.category.dto.CategoryDto">
+        SELECT 
+			category_id,
+			name,
+			description,
+			use_yn,
+			create_date,
+			modify_date
+        FROM 
+            category
+        WHERE use_yn='Y'
+        AND category_id=#{categoryId}
+    </select>
+    
+    <select id="selectCategoryList" parameterType="com.portfolioBo.category.dto.CategoryDto$CategoryListQuery" resultType="com.portfolioBo.category.dto.CategoryDto">
+        SELECT 
+			category_id,
+			name,
+			description,
+			use_yn,
+			create_date,
+			modify_date
+        FROM 
+            category
+        WHERE
+            1=1
+           <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="useYn != null and useYn != ''">
+                AND use_yn = #{useYn}
+            </if>
+            ORDER BY create_date DESC
+			LIMIT #{paging.startRecordIndex}, #{paging.pageSize}
+    </select>
+    <select id="selectCategoryListCnt" parameterType="com.portfolioBo.category.dto.CategoryDto$CategoryListCntQuery" resultType="Integer">
+        SELECT 
+        	COUNT(*)
+        FROM 
+            category
+        WHERE
+            1=1
+           <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="useYn != null and useYn != ''">
+                AND use_yn = #{useYn}
+            </if>
+    </select>
+    
+    <insert id="insertCategory" parameterType="com.portfolioBo.category.dto.CategoryDto$CategorySaveQuery">
+        INSERT INTO category (
+            name, 
+            description, 
+            use_yn
+        ) 
+        VALUES (
+            #{name}, 
+            #{description}, 
+            #{useYn}
+        );
+    </insert>
+    <update id="updateCategory" parameterType="com.portfolioBo.category.dto.CategoryDto$CategoryUpdateQuery">
+	    UPDATE category
+		SET
+	    name = #{name},
+	    description = #{description},
+	    use_yn = #{useYn},
+	    modify_date = NOW()
+		WHERE
+	    category_id = #{categoryId};
+    </update>
+    
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.portfolioBo.product.dao.ProductDao">
+
+	<select id="selectProduct" parameterType="Integer" resultType="com.portfolioBo.product.dto.ProductDto">
+        SELECT 
+			product_id,
+			name,
+			description,
+			use_yn,
+			price,
+			category_id,
+			create_date,
+			modify_date
+        FROM 
+            product
+        WHERE product_id=#{productId}
+    </select>
+    
+    <select id="selectProductList" parameterType="com.portfolioBo.product.dto.ProductDto$ProductListQuery" resultType="com.portfolioBo.product.dto.ProductDto">
+        SELECT 
+			product_id,
+			name,
+			description,
+			use_yn,
+			price,
+			category_id,
+			create_date,
+			modify_date
+        FROM 
+            product
+        WHERE
+            1=1
+            <if test="productId != null">
+                AND product_id = #{productId}
+            </if>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="useYn != null and useYn != ''">
+                AND use_yn = #{useYn}
+            </if>
+            <if test="price != null">
+                AND price = #{price}
+            </if>
+            <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+            ORDER BY create_date DESC
+			LIMIT #{paging.startRecordIndex}, #{paging.pageSize}
+    
+    </select>
+    <select id="selectProductListCnt" parameterType="com.portfolioBo.product.dto.ProductDto$ProductListCntQuery" resultType="Integer">
+        SELECT 
+        	COUNT(*)
+        FROM 
+            product
+        WHERE
+            1=1
+            <if test="productId != null">
+                AND product_id = #{productId}
+            </if>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="useYn != null and useYn != ''">
+                AND use_yn = #{useYn}
+            </if>
+            <if test="price != null">
+                AND price = #{price}
+            </if>
+            <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+    </select>
+    <insert id="insertProduct" parameterType="com.portfolioBo.product.dto.ProductDto$ProductSaveQuery">
+        INSERT INTO product (
+            name, 
+            description, 
+            use_yn, 
+            price, 
+            category_id
+        ) 
+        VALUES (
+            #{name}, 
+            #{description}, 
+            #{useYn}, 
+            #{price}, 
+            #{categoryId}
+        );
+    </insert>
+    <update id="updateProduct" parameterType="com.portfolioBo.product.dto.ProductDto$ProductUpdateQuery">
+	    UPDATE product
+		SET
+	    name = #{name},
+	    description = #{description},
+	    use_yn = #{useYn},
+	    price = #{price},
+	    category_id = #{categoryId},
+	    modify_date = NOW()
+		WHERE
+	    product_id = #{productId};
+    </update>
+    
+</mapper>
