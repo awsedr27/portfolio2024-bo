@@ -9,7 +9,7 @@
             <c:if test="${product.productId != null}">
                 <div class="form-group">
                     <label for="productId">상품 ID</label>
-                    <input type="text" class="form-control" id="productId" name="productId" value="<c:out value='${product.productId}'/>" readonly>
+                    <input type="number" class="form-control" id="productId" name="productId" value="<c:out value='${product.productId}'/>" readonly>
                 </div>
             </c:if>
             <div class="form-group">

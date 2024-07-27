@@ -34,10 +34,10 @@
           <a class="nav-link" aria-current="page" href="/product/list">상품관리</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">리뷰관리</a>
+          <a class="nav-link" href="/review/list">리뷰관리</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">주문관리</a>
+          <a class="nav-link" href="/order/list">주문관리</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/category/list">카테고리관리</a>
