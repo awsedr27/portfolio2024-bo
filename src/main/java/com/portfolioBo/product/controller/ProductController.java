@@ -17,6 +17,7 @@ import com.portfolioBo.category.dto.CategoryDto.ActiveCategoryListResult;
 import com.portfolioBo.category.service.CategoryService;
 import com.portfolioBo.common.Paging;
 import com.portfolioBo.product.dto.ProductDto;
+import com.portfolioBo.product.dto.ProductDto.ProductDetailResult;
 import com.portfolioBo.product.dto.ProductRequest.ProductListRequest;
 import com.portfolioBo.product.dto.ProductRequest.ProductSaveRequest;
 import com.portfolioBo.product.dto.ProductRequest.ProductUpdateRequest;
@@ -70,10 +71,10 @@ public class ProductController {
         	List<ActiveCategoryListResult> categoryList=categoryService.getActiveCategoryList();
         	model.addAttribute("categories", categoryList);
             if (productId != null) {
-            	ProductDto product=productService.getProduct(productId); //상품 수정 시
+            	ProductDetailResult product=productService.getProductDetail(productId); //상품 수정 시
             	model.addAttribute("product", product);
             }else {
-                model.addAttribute("product", new ProductDto());	//상품 등록 시 
+                model.addAttribute("product", new ProductDetailResult());	//상품 등록 시 
             }
             return "/product/detail";
     	}catch(Exception e) {
@@ -87,7 +88,7 @@ public class ProductController {
     public String productSave(@Valid @ModelAttribute ProductSaveRequest productSaveRequest, Model model) {
     	try {
     		ProductSaveServiceDto productSaveServiceDto=new ProductSaveServiceDto(productSaveRequest);
-    		int result=productService.saveProduct(productSaveServiceDto);
+    		boolean result=productService.saveProduct(productSaveServiceDto);
             return "redirect:/product/list";
     	}catch(Exception e) {
     		log.error("상품등록에 실패했습니다."+e.toString());
@@ -100,7 +101,7 @@ public class ProductController {
     public String productUpdate(@Valid @ModelAttribute ProductUpdateRequest productUpdateRequest, Model model) {
     	try {
     		ProductUpdateServiceDto productSaveServiceDto=new ProductUpdateServiceDto(productUpdateRequest);
-    		int result=productService.updateProduct(productSaveServiceDto);
+    		boolean result=productService.updateProduct(productSaveServiceDto);
             return "redirect:/product/list";
     	}catch(Exception e) {
     		log.error("상품수정에 실패했습니다."+e.toString());

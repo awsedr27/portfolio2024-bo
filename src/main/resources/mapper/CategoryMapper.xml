@@ -100,8 +100,7 @@
 		SET
 	    name = #{name},
 	    description = #{description},
-	    use_yn = #{useYn},
-	    modify_date = NOW()
+	    use_yn = #{useYn}
 		WHERE
 	    category_id = #{categoryId};
     </update>

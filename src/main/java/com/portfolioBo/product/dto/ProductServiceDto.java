@@ -1,5 +1,7 @@
 package com.portfolioBo.product.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.portfolioBo.common.Paging;
 import com.portfolioBo.product.dto.ProductRequest.ProductListRequest;
 import com.portfolioBo.product.dto.ProductRequest.ProductSaveRequest;
@@ -43,6 +45,8 @@ public class ProductServiceDto {
         private String useYn;
         private Integer price;
         private Integer categoryId;
+        private Integer quantity;
+        private MultipartFile imageFile;
 	    public ProductSaveServiceDto() {
 	    	
 	    }
@@ -52,6 +56,8 @@ public class ProductServiceDto {
 			this.useYn = request.getUseYn();
 			this.price = request.getPrice();
 			this.categoryId = request.getCategoryId();
+			this.quantity=request.getQuantity();
+			this.imageFile=request.getImageFile();
 		}
 	    
 	}
@@ -64,6 +70,10 @@ public class ProductServiceDto {
         private String useYn;
         private Integer price;
         private Integer categoryId;
+        private Integer quantity;
+        private MultipartFile imageFile;
+
+
 	    public ProductUpdateServiceDto() {
 	    	
 	    }
@@ -74,6 +84,9 @@ public class ProductServiceDto {
 			this.useYn = request.getUseYn();
 			this.price = request.getPrice();
 			this.categoryId = request.getCategoryId();
+			this.quantity=request.getQuantity();
+			this.imageFile=request.getImageFile();
+
 		}
 	    
 	}

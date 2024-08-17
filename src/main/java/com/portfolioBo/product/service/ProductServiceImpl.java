@@ -7,9 +7,15 @@ import org.springframework.stereotype.Service;
 
 import com.portfolioBo.category.dao.CategoryDao;
 import com.portfolioBo.category.dto.CategoryDto;
+import com.portfolioBo.common.CommonEnum;
 import com.portfolioBo.exception.CustomException;
+import com.portfolioBo.file.dao.FileDao;
+import com.portfolioBo.file.dto.FileDto.FilesUseYnUpdateQuery;
+import com.portfolioBo.file.dto.FileServiceDto.FileSaveServiceDto;
+import com.portfolioBo.file.service.FileService;
 import com.portfolioBo.product.dao.ProductDao;
 import com.portfolioBo.product.dto.ProductDto;
+import com.portfolioBo.product.dto.ProductDto.ProductDetailResult;
 import com.portfolioBo.product.dto.ProductDto.ProductListCntQuery;
 import com.portfolioBo.product.dto.ProductDto.ProductListQuery;
 import com.portfolioBo.product.dto.ProductDto.ProductSaveQuery;
@@ -26,6 +32,12 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
 	CategoryDao categoryDao;
+	
+	@Autowired
+	FileService fileService;
+	
+	@Autowired
+	FileDao fileDao;
 
     
 	@Override
@@ -38,25 +50,27 @@ public class ProductServiceImpl implements ProductService {
 
 
 	@Override
-	public ProductDto getProduct(Integer productId) {
-		return productDao.selectProduct(productId);
+	public ProductDetailResult getProductDetail(Integer productId) {
+		return productDao.selectProductDetail(productId);
 	}
 
 
 	@Override
-	public int saveProduct(ProductSaveServiceDto productSaveServiceDto) throws Exception{
+	public boolean saveProduct(ProductSaveServiceDto productSaveServiceDto) throws Exception{		
 		ProductSaveQuery productSaveQuery=new ProductSaveQuery(productSaveServiceDto);
 		CategoryDto categoryDto=categoryDao.selectActiveCategory(productSaveQuery.getCategoryId());
 		if(categoryDto==null) {
 			throw new CustomException("유효하지않은 카테고리입니다");
 		}
-		return productDao.insertProduct(productSaveQuery);
-		
+		productDao.insertProduct(productSaveQuery);
+		FileSaveServiceDto fileSaveServiceDto=new FileSaveServiceDto(productSaveServiceDto);
+		fileSaveServiceDto.setReferenceId(productSaveQuery.getProductId().toString());
+		return fileService.saveImgFile(fileSaveServiceDto);
 	}
 
 
 	@Override
-	public int updateProduct(ProductUpdateServiceDto productUpdateServiceDto) throws Exception {
+	public boolean updateProduct(ProductUpdateServiceDto productUpdateServiceDto) throws Exception {
 		ProductDto product=productDao.selectProduct(productUpdateServiceDto.getProductId());
 		if(product==null) {
 			throw new CustomException("유효하지않은 상품아이디입니다");
@@ -66,7 +80,16 @@ public class ProductServiceImpl implements ProductService {
 		if(categoryDto==null) {
 			throw new CustomException("유효하지않은 카테고리입니다");
 		}
-		return productDao.updateProduct(productUpdateQuery);
+		productDao.updateProduct(productUpdateQuery);
+		FileSaveServiceDto fileSaveServiceDto=new FileSaveServiceDto(productUpdateServiceDto);
+		fileSaveServiceDto.setReferenceId(productUpdateQuery.getProductId().toString());
+		
+		FilesUseYnUpdateQuery filesUseYnUpdateQuery=new FilesUseYnUpdateQuery();
+		filesUseYnUpdateQuery.setUseYn("N");
+		filesUseYnUpdateQuery.setReferenceId(productUpdateQuery.getProductId().toString());
+		filesUseYnUpdateQuery.setReferenceType(CommonEnum.FileReferenceType.PRODUCT_IMG.name());
+		fileDao.updateAllFilesUseYnByReferenceId(filesUseYnUpdateQuery);
+		return fileService.saveImgFile(fileSaveServiceDto);
 	}
 
 }

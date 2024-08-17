@@ -1,5 +1,7 @@
 package com.portfolioBo.product.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,6 +37,13 @@ public class ProductRequest {
         @NotNull(message = "categoryId cannot be null")
         @Min(value = 0, message = "categoryId must be greater than or equal to 0")
         private Integer categoryId;
+        
+        @NotNull(message = "quantity cannot be null")
+        @Min(value = 0, message = "quantity must be greater than or equal to 0")
+        private Integer quantity;
+        
+        @NotNull(message = "File must be selected.")
+        private MultipartFile imageFile;
 	}
     
     @Getter
@@ -55,5 +64,10 @@ public class ProductRequest {
         @NotNull(message = "categoryId cannot be null")
         @Min(value = 0, message = "categoryId must be greater than or equal to 0")
         private Integer categoryId;
+        @NotNull(message = "quantity cannot be null")
+        @Min(value = 0, message = "quantity must be greater than or equal to 0")
+        private Integer quantity;
+        @NotNull(message = "File must be selected.")
+        private MultipartFile imageFile;
 	}
 }

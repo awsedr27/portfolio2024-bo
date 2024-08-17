@@ -19,8 +19,24 @@ public class ProductDto {
     private String useYn;
     private Integer price;
     private Integer categoryId;
+    private Integer quantity;
     private Timestamp createDate;
     private Timestamp modifyDate;
+    
+    @Getter
+    @Setter
+    public static class ProductDetailResult {
+        private Integer productId;
+        private String name;
+        private String description;
+        private String useYn;
+        private Integer price;
+        private Integer categoryId;
+        private Integer quantity;
+        private Timestamp createDate;
+        private Timestamp modifyDate;
+        private String imageUrl;
+    }
     
     @Getter
     @Setter
@@ -76,12 +92,15 @@ public class ProductDto {
 			this.useYn = productSaveServiceDto.getUseYn();
 			this.price = productSaveServiceDto.getPrice();
 			this.categoryId = productSaveServiceDto.getCategoryId();
+			this.quantity=productSaveServiceDto.getQuantity();
 		}
+        private Integer productId;
         private String name;
         private String description;
         private String useYn;
         private Integer price;
-        private Integer categoryId;     
+        private Integer categoryId;
+        private Integer quantity;
     }
     
     @Getter
@@ -97,13 +116,15 @@ public class ProductDto {
 			this.useYn = productUpdateServiceDto.getUseYn();
 			this.price = productUpdateServiceDto.getPrice();
 			this.categoryId = productUpdateServiceDto.getCategoryId();
+			this.quantity=productUpdateServiceDto.getQuantity();
 		}
         private Integer productId;
         private String name;
         private String description;
         private String useYn;
         private Integer price;
-        private Integer categoryId;     
+        private Integer categoryId;    
+        private Integer quantity;
     }
     
 }

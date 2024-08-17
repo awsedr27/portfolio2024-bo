@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.portfolioBo.file.dao.FileDao">
+
+    <insert id="insertFile" parameterType="com.portfolioBo.file.dto.FileDto$FileSaveQuery">
+        INSERT INTO file (
+			file_id,
+			file_name,
+			file_type,
+			file_size,
+			file_path,
+			reference_id,
+			reference_type
+        ) 
+        VALUES (
+        	#{fileId},
+        	#{fileName},
+        	#{fileType},
+        	#{fileSize},
+        	#{filePath},
+        	#{referenceId},
+        	#{referenceType}
+        );
+    </insert>
+    
+    <update id="updateAllFilesUseYnByReferenceId" parameterType="com.portfolioBo.file.dto.FileDto$FilesUseYnUpdateQuery">
+	    UPDATE file
+		SET
+	    use_yn = #{useYn}
+		WHERE
+	    reference_id = #{referenceId}
+	    AND reference_type=#{referenceType}
+    </update>
+</mapper>

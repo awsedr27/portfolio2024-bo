@@ -13,13 +13,30 @@
 			use_yn,
 			price,
 			category_id,
+			quantity,
 			create_date,
 			modify_date
         FROM 
             product
         WHERE product_id=#{productId}
     </select>
-    
+	<select id="selectProductDetail" parameterType="Integer" resultType="com.portfolioBo.product.dto.ProductDto$ProductDetailResult">
+        SELECT 
+			p.product_id,
+			p.name,
+			p.description,
+			p.use_yn,
+			p.price,
+			p.category_id,
+			p.quantity,
+			p.create_date,
+			p.modify_date,
+			CONCAT(f.file_id, '.', f.file_type) AS imageUrl
+        FROM 
+            product p
+        LEFT OUTER JOIN file f ON f.reference_id =p.product_id AND f.use_yn ='Y' AND f.reference_type ='PRODUCT_IMG'
+        WHERE p.product_id =#{productId}
+    </select>
     <select id="selectProductList" parameterType="com.portfolioBo.product.dto.ProductDto$ProductListQuery" resultType="com.portfolioBo.product.dto.ProductDto">
         SELECT 
 			product_id,
@@ -76,20 +93,22 @@
                 AND category_id = #{categoryId}
             </if>
     </select>
-    <insert id="insertProduct" parameterType="com.portfolioBo.product.dto.ProductDto$ProductSaveQuery">
+    <insert id="insertProduct" parameterType="com.portfolioBo.product.dto.ProductDto$ProductSaveQuery" useGeneratedKeys="true" keyProperty="productId">
         INSERT INTO product (
             name, 
             description, 
             use_yn, 
             price, 
-            category_id
+            category_id,
+            quantity
         ) 
         VALUES (
             #{name}, 
             #{description}, 
             #{useYn}, 
             #{price}, 
-            #{categoryId}
+            #{categoryId},
+            #{quantity}
         );
     </insert>
     <update id="updateProduct" parameterType="com.portfolioBo.product.dto.ProductDto$ProductUpdateQuery">
@@ -100,7 +119,7 @@
 	    use_yn = #{useYn},
 	    price = #{price},
 	    category_id = #{categoryId},
-	    modify_date = NOW()
+	    quantity=#{quantity}
 		WHERE
 	    product_id = #{productId};
     </update>

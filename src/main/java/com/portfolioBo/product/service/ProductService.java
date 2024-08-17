@@ -3,6 +3,7 @@ package com.portfolioBo.product.service;
 import java.util.List;
 
 import com.portfolioBo.product.dto.ProductDto;
+import com.portfolioBo.product.dto.ProductDto.ProductDetailResult;
 import com.portfolioBo.product.dto.ProductRequest.ProductListRequest;
 import com.portfolioBo.product.dto.ProductServiceDto.ProductListServiceDto;
 import com.portfolioBo.product.dto.ProductServiceDto.ProductSaveServiceDto;
@@ -12,10 +13,10 @@ public interface ProductService {
 	
 	List<ProductDto> getProductList(ProductListServiceDto productServiceDto) throws Exception;
 
-	ProductDto getProduct(Integer productId) throws Exception;
+	ProductDetailResult getProductDetail(Integer productId) throws Exception;
 
-	int saveProduct(ProductSaveServiceDto productSaveServiceDto) throws Exception;
+	boolean saveProduct(ProductSaveServiceDto productSaveServiceDto) throws Exception;
 
-	int updateProduct(ProductUpdateServiceDto productSaveServiceDto) throws Exception;
+	boolean updateProduct(ProductUpdateServiceDto productSaveServiceDto) throws Exception;
 
 }

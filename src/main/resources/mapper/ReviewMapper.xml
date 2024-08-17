@@ -74,8 +74,7 @@
 	    UPDATE review
 		SET
 	    reply = #{reply},
-	    use_yn = #{useYn},
-	    modify_date = NOW()
+	    use_yn = #{useYn}
 		WHERE
 	    review_id = #{reviewId};
     </update>
