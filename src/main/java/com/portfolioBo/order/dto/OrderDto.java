@@ -5,7 +5,8 @@ import java.util.List;
 
 import com.portfolioBo.common.Paging;
 import com.portfolioBo.order.dto.OrderDto.OrderItemListResult;
-import com.portfolioBo.order.dto.OrderServiceDto.OrderItemUpdateServiceDto;
+import com.portfolioBo.order.dto.OrderServiceDto.OrderItemCancelServiceDto;
+import com.portfolioBo.order.dto.OrderServiceDto.OrderUpdateServiceDto;
 import com.portfolioBo.order.dto.OrderServiceDto.OrdersListServiceDto;
 
 import lombok.Getter;
@@ -14,14 +15,29 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderDto {
-
     private Integer orderId;
     private String userId;
     private Integer totalPrice;
     private String status;
     private Timestamp createDate;
     private Timestamp modifyDate;
+    private String postcode;
+    private String roadAddress;
+    private String jibunAddress;
+    private String detailAddress;
     
+    @Getter
+    @Setter
+    public static class OrderItemDto {
+    	private Integer orderItemId;
+    	private Integer orderId;
+    	private Integer productId;
+    	private Integer quantity;
+    	private Integer price;
+	    private String status;
+	    private Timestamp createDate; 
+	    private Timestamp modifyDate;
+    }   
     @Getter
     @Setter
     public static class OrdersListQuery {
@@ -97,12 +113,45 @@ public class OrderDto {
         public OrderItemUpdateQuery() {
         	
 		}
-        public OrderItemUpdateQuery(OrderItemUpdateServiceDto serviceDto) {
+        public OrderItemUpdateQuery(OrderItemCancelServiceDto serviceDto) {
         	this.orderItemId=serviceDto.getOrderItemId();
-        	this.orderItemStatus=serviceDto.getOrderItemStatus();
 		}
     	private Integer orderItemId;
-	    private String orderItemStatus;
+	    private String status;
     }
-    
+    @Getter
+    @Setter
+    public static class OrderUpdateQuery {
+    	private Integer orderId;
+        private String postcode;
+        private String roadAddress;
+        private String jibunAddress;
+        private String detailAddress;
+        private String status;
+        public OrderUpdateQuery() {
+        	
+		}
+		public OrderUpdateQuery(OrderUpdateServiceDto orderUpdateServiceDto) {
+			this.orderId=orderUpdateServiceDto.getOrderId();
+			this.postcode=orderUpdateServiceDto.getPostcode();
+			this.roadAddress=orderUpdateServiceDto.getRoadAddress();
+			this.jibunAddress=orderUpdateServiceDto.getJibunAddress();
+			this.detailAddress=orderUpdateServiceDto.getDetailAddress();
+			this.status=orderUpdateServiceDto.getStatus();
+		}
+        
+    }
+    @Getter
+    @Setter
+    public static class OrderItemsStatusUpdateByOrderIdQuery{
+    	private Integer orderId;
+        private String status;
+        public OrderItemsStatusUpdateByOrderIdQuery(){
+        	
+        }
+        public OrderItemsStatusUpdateByOrderIdQuery(OrderUpdateServiceDto service){
+        	this.orderId=service.getOrderId();
+        	this.status=service.getStatus();
+        }
+    }
 }

@@ -7,8 +7,41 @@
 
 	<update id="updateOrderItem" parameterType="com.portfolioBo.order.dto.OrderDto$OrderItemUpdateQuery">
 	    UPDATE orderItems
-        SET status = #{orderItemStatus}
+        SET status = #{status}
         WHERE order_item_id = #{orderItemId}
 	</update>
-
+	<select id="selectOrderItemWithExclusiveLock" parameterType="Int" resultType="com.portfolioBo.order.dto.OrderDto$OrderItemDto">
+		SELECT 
+			order_item_id,
+			order_id,
+			product_id,
+			quantity,
+			price,
+			status,
+			create_date,
+			modify_date
+		FROM orderItems
+		WHERE order_item_id = #{orderItemId}
+		FOR UPDATE
+	</select>
+	<select id="selectOrderItemListByOrderId" parameterType="Int" resultType="com.portfolioBo.order.dto.OrderDto$OrderItemDto">
+		SELECT 
+			order_item_id,
+			order_id,
+			product_id,
+			quantity,
+			price,
+			status,
+			create_date,
+			modify_date
+		FROM orderItems
+		WHERE order_id = #{orderId}
+	</select>
+	<update id="updateOrderItemsStatusByOrderId" parameterType="com.portfolioBo.order.dto.OrderDto$OrderItemsStatusUpdateByOrderIdQuery">
+    UPDATE orderItems
+    SET status = #{status}
+    WHERE order_id = #{orderId}
+    AND status != 'CANCELLED'
+    AND status != 'COMPLETED';
+	</update>
 </mapper>

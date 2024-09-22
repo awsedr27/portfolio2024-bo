@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.portfolioBo.order.dto.OrderDto.OrderDetailResult;
 import com.portfolioBo.order.dto.OrderDto.OrdersListResult;
-import com.portfolioBo.order.dto.OrderServiceDto.OrderItemUpdateServiceDto;
+import com.portfolioBo.order.dto.OrderServiceDto.OrderItemCancelServiceDto;
+import com.portfolioBo.order.dto.OrderServiceDto.OrderUpdateServiceDto;
 import com.portfolioBo.order.dto.OrderServiceDto.OrdersListServiceDto;
 
 public interface OrderService {
@@ -13,6 +14,8 @@ public interface OrderService {
 
 	OrderDetailResult getOrdersDetail(Integer orderId);
 
-	int updateOrderItem(OrderItemUpdateServiceDto orderItemsUpdateServiceDto);
+	int cancelOrderItem(OrderItemCancelServiceDto orderItemsUpdateServiceDto);
+
+	int updateOrder(OrderUpdateServiceDto orderUpdateServiceDto);
 
 }

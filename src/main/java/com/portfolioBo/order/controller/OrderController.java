@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.portfolioBo.common.Paging;
 import com.portfolioBo.order.dto.OrderDto.OrderDetailResult;
 import com.portfolioBo.order.dto.OrderDto.OrdersListResult;
-import com.portfolioBo.order.dto.OrderRequest.OrderItemsUpdateRequest;
+import com.portfolioBo.order.dto.OrderRequest.OrderItemsCancelRequest;
+import com.portfolioBo.order.dto.OrderRequest.OrderUpdateRequest;
 import com.portfolioBo.order.dto.OrderRequest.OrdersListRequest;
-import com.portfolioBo.order.dto.OrderServiceDto.OrderItemUpdateServiceDto;
+import com.portfolioBo.order.dto.OrderServiceDto.OrderItemCancelServiceDto;
+import com.portfolioBo.order.dto.OrderServiceDto.OrderUpdateServiceDto;
 import com.portfolioBo.order.dto.OrderServiceDto.OrdersListServiceDto;
 import com.portfolioBo.order.service.OrderService;
 
@@ -70,13 +72,24 @@ public class OrderController {
     		return "/error";
     	}
     }
-    
-    @PostMapping("/orderItem/update")
-    public String orderItemUpdate(@Valid @ModelAttribute OrderItemsUpdateRequest orderItemsUpdateRequest, Model model) {
+    @PostMapping("/update")
+    public String orderUpdate(@Valid @ModelAttribute OrderUpdateRequest orderUpdateRequest, Model model) {
     	try {
-    		OrderItemUpdateServiceDto orderItemUpdateServiceDto=new OrderItemUpdateServiceDto(orderItemsUpdateRequest);
-    		int result=orderService.updateOrderItem(orderItemUpdateServiceDto);
-    		return "redirect:/orders/detail?orderId=" + orderItemsUpdateRequest.getOrderId();
+    		OrderUpdateServiceDto OrderUpdateServiceDto=new OrderUpdateServiceDto(orderUpdateRequest);
+    		int result=orderService.updateOrder(OrderUpdateServiceDto);
+    		return "redirect:/order/detail?orderId=" + orderUpdateRequest.getOrderId();
+    	}catch(Exception e) {
+    		log.error("주문 업데이트에 실패."+e.toString());
+    		model.addAttribute("errorMessage", "주문 업데이트에 실패했습니다");
+    		return "/error";
+    	}
+    }
+    @PostMapping("/orderItem/cancel")
+    public String orderItemUpdate(@Valid @ModelAttribute OrderItemsCancelRequest orderItemsCancelRequest, Model model) {
+    	try {
+    		OrderItemCancelServiceDto orderItemCancelServiceDto=new OrderItemCancelServiceDto(orderItemsCancelRequest);
+    		int result=orderService.cancelOrderItem(orderItemCancelServiceDto);
+    		return "redirect:/order/detail?orderId=" + orderItemsCancelRequest.getOrderId();
     	}catch(Exception e) {
     		log.error("주문 상품 업데이트에 실패."+e.toString());
     		model.addAttribute("errorMessage", "주문 상품 업데이트에 실패했습니다");

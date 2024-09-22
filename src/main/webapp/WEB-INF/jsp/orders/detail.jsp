@@ -10,7 +10,7 @@
     <form action="<c:url value="/order/update"/>" method="post">
 	    <div class="form-group">
 	        <label for="orderId">주문번호</label>
-	        <input type="number" class="form-control" id="orderId" name="orderId" value="<c:out value='${order.orderId}'/>" disabled>
+	        <input type="number" class="form-control" id="orderId" name="orderId" value="<c:out value='${order.orderId}'/>" readonly>
 	    </div>
 	    <div class="form-group">
 	        <label for="createDate">주문일</label>
@@ -58,7 +58,9 @@
 			  </div>
 			</div> 
         </div>
+        <c:if test="${order.status != 'CANCELLED' && order.status != 'COMPLETED'}">
         <button type="submit" class="btn btn-primary mt-4"><c:out value="주문정보 수정"/></button>
+        </c:if>
     </form>
     
 	<h2 class="mb-4 mt-4">주문 상품 목록</h2>    
@@ -72,6 +74,7 @@
                 <th>가격</th>
                 <th>주문일</th>
                 <th>주문상품상태</th>
+                <th>주문상품취소</th>
             </tr>
         </thead>
         <tbody>
@@ -96,17 +99,56 @@
                     <td class="text-truncate"><c:out value='${orderItem.price}'/></td>
                     <td class="text-truncate"><c:out value='${orderItem.orderItemCreateDate}'/></td>
                     <td class="text-truncate">
-			            <select id="orderItemStatus" name="orderItemStatus" class="form-control" style="text-align:center" required>
-			                <option value="PENDING" <c:if test="${orderItem.orderItemStatus == 'PENDING'}">selected</c:if> >준비중</option>
-			                <option value="PROCESSING" <c:if test="${orderItem.orderItemStatus == 'PROCESSING'}">selected</c:if> >진행중</option>
-			                <option value="SHIPPED" <c:if test="${orderItem.orderItemStatus == 'SHIPPED'}">selected</c:if> >배송중</option>
-			                <option value="COMPLETED" <c:if test="${orderItem.orderItemStatus == 'COMPLETED'}">selected</c:if> >완료</option>
-			                <option value="CANCELLED" <c:if test="${orderItem.orderItemStatus == 'CANCELLED'}">selected</c:if> >취소</option>
-			            </select>     
+				        <c:choose>
+				            <c:when test="${orderItem.orderItemStatus == 'PENDING'}">준비중</c:when>
+				            <c:when test="${orderItem.orderItemStatus == 'PROCESSING'}">진행중</c:when>
+				            <c:when test="${orderItem.orderItemStatus == 'SHIPPED'}">배송중</c:when>
+				            <c:when test="${orderItem.orderItemStatus == 'COMPLETED'}">완료</c:when>
+				            <c:when test="${orderItem.orderItemStatus == 'CANCELLED'}">취소</c:when>
+				            <c:otherwise>알 수 없는 상태</c:otherwise>
+				        </c:choose>   
+                    </td>
+                    <td>
+						<c:if test="${orderItem.orderItemStatus == 'PENDING'}">
+	                    	<button type="button" class="btn btn-link text-danger" data-order-item-id="${orderItem.orderItemId}"  onclick="orderItemCancel(this)">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+							  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+							  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+							</svg>
+							</button>
+						</c:if>
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
 </div>
+
+<script>
+function orderItemCancel(button) {
+	const orderId = ${order.orderId};
+	const orderItemId = button.getAttribute('data-order-item-id'); 
+    if (confirm("정말로 삭제하시겠습니까?")) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/order/orderItem/cancel';
+
+        const itemInput  = document.createElement('input');
+        itemInput.type = 'hidden';
+        itemInput.name = 'orderItemId';
+        itemInput.value = orderItemId;
+        form.appendChild(itemInput);
+        
+        const orderInput  = document.createElement('input');
+        orderInput.type = 'hidden';
+        orderInput.name = 'orderId';
+        orderInput.value = orderId
+        form.appendChild(orderInput);
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form); 
+        
+    }
+}
+</script>
 <%@ include file="../include/footer.jsp" %>

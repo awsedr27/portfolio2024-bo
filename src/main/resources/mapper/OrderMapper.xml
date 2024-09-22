@@ -94,4 +94,43 @@
 	LEFT OUTER JOIN file f ON f.reference_id =p.product_id AND f.use_yn ='Y' AND f.reference_type ='PRODUCT_IMG'
 	WHERE o.order_id =#{orderId}
     </select>
+    <update id="updateOrder" parameterType="com.portfolioBo.order.dto.OrderDto$OrderUpdateQuery">
+        UPDATE orders
+        SET
+        <trim suffixOverrides=",">
+        <if test="postcode != null and postcode.trim() != ''">
+            post_code = #{postcode},
+        </if>
+        <if test="roadAddress != null and roadAddress.trim() != ''">
+            road_address = #{roadAddress},
+        </if>
+        <if test="jibunAddress != null and jibunAddress.trim() != ''">
+            jibun_address = #{jibunAddress},
+        </if>
+        <if test="detailAddress != null and detailAddress.trim() != ''">
+            detail_address = #{detailAddress},
+        </if>
+        <if test="status != null and status.trim() != ''">
+            status = #{status},
+        </if>
+        </trim>
+        WHERE order_id = #{orderId}
+    </update>
+    <select id="selectOrderWithExclusiveLock" parameterType="Int" resultType="com.portfolioBo.order.dto.OrderDto">
+        SELECT 
+			order_id,
+			user_id,
+			total_price,
+			status,
+			create_date,
+			modify_date,
+			post_code,
+			road_address,
+			jibun_address,
+			detail_address
+        FROM 
+            orders 
+        WHERE order_id=#{orderId}
+        FOR UPDATE
+    </select>
 </mapper>
