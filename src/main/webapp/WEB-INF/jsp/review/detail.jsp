@@ -4,14 +4,16 @@
 
 <div class="container">
     <h1 class="mb-4"><c:out value="리뷰상세"/></h1>
+    
     <div class="form-group">
-        <label for="productId">상품 ID</label>
-        <input type="text" class="form-control" id="productId" value="<c:out value='${review.productId}'/>" readonly disabled>
+        <label for="productName">상품이름</label>
+        <input type="text" class="form-control" id="productName" name="productName" value="<c:out value='${review.productName}'/>"readonly disabled>
     </div>
     <div class="form-group">
-        <label for="userId">사용자 ID</label>
-        <input type="text" class="form-control" id="userId" value="<c:out value='${review.userId}'/>" readonly disabled>
+        <label for="userNickName">리뷰 작성자</label>
+        <input type="text" class="form-control" id="userNickName" name="userNickName" value="<c:out value='${review.userNickName}'/>"readonly disabled>
     </div>
+    
     <div class="form-group">
         <label for="rating">평점</label>
         <input type="number" class="form-control" id="rating" value="<c:out value='${review.rating}'/>" readonly disabled>

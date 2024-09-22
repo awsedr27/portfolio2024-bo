@@ -3,7 +3,7 @@
 <%@ include file="../include/header.jsp" %>
 
 <div class="container">
- <h1 class="mb-4">카테고리목록</h1>
+ <h1 class="mb-4 mt-4">카테고리목록</h1>
  
 	<form method="get" action="/category/list" class="form-inline mb-3">
         <div class="form-group mr-2">
@@ -22,7 +22,7 @@
                 <option value="N" <c:if test="${search.useYn == 'N'}">selected</c:if> >N</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
+        <button type="submit" class="btn btn-primary mt-4">검색</button>
     </form>
     <table class="table table-hover">
         <thead>

@@ -8,6 +8,7 @@ import com.portfolioBo.product.dto.ProductDto;
 import com.portfolioBo.product.dto.ProductDto.ProductDetailResult;
 import com.portfolioBo.product.dto.ProductDto.ProductListCntQuery;
 import com.portfolioBo.product.dto.ProductDto.ProductListQuery;
+import com.portfolioBo.product.dto.ProductDto.ProductListResult;
 import com.portfolioBo.product.dto.ProductDto.ProductSaveQuery;
 import com.portfolioBo.product.dto.ProductDto.ProductUpdateQuery;
 
@@ -20,7 +21,7 @@ public interface ProductDao {
 	
 	int selectProductListCnt(ProductListCntQuery productListQuery);
 
-	List<ProductDto> selectProductList(ProductListQuery productListQuery);
+	List<ProductListResult> selectProductList(ProductListQuery productListQuery);
 
 	int insertProduct(ProductSaveQuery productSaveQuery);
 

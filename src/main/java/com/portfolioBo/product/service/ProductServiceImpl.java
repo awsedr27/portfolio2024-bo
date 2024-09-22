@@ -18,6 +18,7 @@ import com.portfolioBo.product.dto.ProductDto;
 import com.portfolioBo.product.dto.ProductDto.ProductDetailResult;
 import com.portfolioBo.product.dto.ProductDto.ProductListCntQuery;
 import com.portfolioBo.product.dto.ProductDto.ProductListQuery;
+import com.portfolioBo.product.dto.ProductDto.ProductListResult;
 import com.portfolioBo.product.dto.ProductDto.ProductSaveQuery;
 import com.portfolioBo.product.dto.ProductDto.ProductUpdateQuery;
 import com.portfolioBo.product.dto.ProductServiceDto.ProductListServiceDto;
@@ -41,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
 
     
 	@Override
-	public List<ProductDto> getProductList(ProductListServiceDto productServiceDto) {
+	public List<ProductListResult> getProductList(ProductListServiceDto productServiceDto) {
 		ProductListQuery productListQuery=new ProductListQuery(productServiceDto);
 		int listCnt=productDao.selectProductListCnt(new ProductListCntQuery(productServiceDto));
 		productListQuery.getPaging().setTotalRecordCount(listCnt);

@@ -1,14 +1,13 @@
 package com.portfolioBo.order.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 
-import com.portfolioBo.order.dto.OrderDto.OrderItem;
+import com.portfolioBo.order.dto.OrderDto.OrderItemUpdateQuery;
 
 @Mapper
 public interface OrderItemDao {
 
-	List<OrderItem> selectOrderItemListByOrderId(Integer orderId);
+	int updateOrderItem(OrderItemUpdateQuery orderItemUpdateQuery);
+
 
 }

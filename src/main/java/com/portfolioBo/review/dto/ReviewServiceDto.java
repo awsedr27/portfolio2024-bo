@@ -12,19 +12,19 @@ public class ReviewServiceDto {
 	   @Getter
 	    @Setter
 		public static class ReviewListServiceDto {
-		    private Integer reviewId;  
-		    private Integer productId;  
-		    private String userId;
+		    private String productName;
+		    private String userNickName;
 		    private String useYn;
+		    private String replyYn;
 		    private Paging paging;
 		    public ReviewListServiceDto() {
 		    	
 		    }
 			public ReviewListServiceDto(ReviewListRequest request) {
-				this.reviewId = request.getReviewId();
-				this.productId = request.getProductId();
-				this.userId = request.getUserId();
+				this.productName=request.getProductName();
+				this.userNickName=request.getUserNickName();
 				this.useYn = request.getUseYn();
+				this.replyYn=request.getReplyYn();
 			}
 		    
 		}

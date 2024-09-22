@@ -4,46 +4,50 @@
 
 
 <div class="container">
- <h1 class="mb-4">상품목록</h1>
+ <h1 class="mb-4 mt-4">상품목록</h1>
  
 	<form method="get" action="/product/list" class="form-inline mb-3">
-        <div class="form-group mr-2">
-            <label for="productId" class="mr-2">Product ID</label>
+        <div class="form-group me-2">
+            <label for="productId" class="me-2">상품아이디</label>
             <input type="number" id="productId" name="productId" class="form-control" value="<c:out value="${search.productId}"/>">
         </div>
-        <div class="form-group mr-2">
-            <label for="name" class="mr-2">Name</label>
+        <div class="form-group me-2">
+            <label for="name" class="me-2">상품이름</label>
             <input type="text" id="name" name="name" class="form-control" value="<c:out value="${search.name}"/>">
         </div>
-        <div class="form-group mr-2">
-            <label for="useYn" class="mr-2">Use Y/N</label>
+        <div class="form-group me-2">
+            <label for="useYn" class="me-2">게시여부</label>
             <select id="useYn" name="useYn" class="form-control">
                 <option value="">All</option>
                 <option value="Y" <c:if test="${param.useYn == 'Y'}">selected</c:if> >Y</option>
                 <option value="N" <c:if test="${param.useYn == 'N'}">selected</c:if> >N</option>
             </select>
         </div>
-        <div class="form-group mr-2">
-            <label for="price" class="mr-2">Price</label>
+        <div class="form-group me-2">
+            <label for="price" class="me-2">가격</label>
             <input type="number" id="price" name="price" class="form-control" value="<c:out value="${search.price}"/>">
         </div>
-        <div class="form-group mr-2">
-            <label for="categoryId" class="mr-2">Category ID</label>
-            <input type="number" id="categoryId" name="categoryId" class="form-control" value="<c:out value="${search.categoryId}"/>">
+        <div class="form-group me-2 mb-3">
+            <label for="categoryName" class="me-2">카테고리이름</label>
+            <input type="text" id="categoryName" name="categoryName" class="form-control" value="<c:out value="${search.categoryName}"/>">
         </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
+        <button type="submit" class="btn btn-primary">검색</button>
+        <a href="/product/detail" class="btn btn-primary">
+		  상품 추가
+		</a>
     </form>
-    <table class="table table-hover">
+    <table class="table table-hover" style="table-layout: fixed;">
         <thead>
             <tr>
-                <th>PRODUCT_ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>USE</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>CREATE_DATE</th>
-                <th>MODIFY_DATE</th>
+            	<th>이미지</th>
+                <th>상품아이디</th>
+                <th>상품이름</th>
+                <th>상품설명</th>
+                <th>게시여부</th>
+                <th>가격</th>
+                <th>카테고리이름</th>
+                <th>생성일</th>
+                <th>수정일</th>
             </tr>
         </thead>
         <tbody>
@@ -52,14 +56,27 @@
 	            	<c:param name="productId" value="${product.productId}" />
 	            </c:url>
 				<tr style="cursor: pointer;" onclick="window.location.href='<c:out value="${ProdutDetailUrl}"/>'">
-                    <td><c:out value="${product.productId}"/></td>
-                    <td><c:out value="${product.name}"/></td>
-                    <td><c:out value="${product.description}"/></td>
-                    <td><c:out value="${product.useYn}"/></td>
-                    <td><c:out value="${product.price}"/></td>
-                    <td><c:out value="${product.categoryId}"/></td>
-                    <td><c:out value="${product.createDate}"/></td>
-                    <td><c:out value="${product.modifyDate}"/></td>
+					<td>
+	                <c:choose>
+		            	<c:when test="${empty product.imageUrl}">
+		                	<img id="preview" src="#" alt="Image preview" style="display:none;">
+		                </c:when>
+		                <c:otherwise>
+		                	<c:url var="imgUrl" value="/images/${product.imageUrl}">
+		                	</c:url>
+	                    	<img id="preview" src="<c:out value='${imgUrl}'/>" alt="Image preview" style="display:block;width:100%;height:auto">
+	
+		                </c:otherwise>
+		            </c:choose>
+					</td>
+                    <td  class="text-truncate"><c:out value="${product.productId}"/></td>
+                    <td  class="text-truncate"><c:out value="${product.name}"/></td>
+                    <td  class="text-truncate"><c:out value="${product.description}"/></td>
+                    <td  class="text-truncate"><c:out value="${product.useYn}"/></td>
+                    <td  class="text-truncate"><c:out value="${product.price}"/></td>
+                    <td  class="text-truncate"><c:out value="${product.categoryName}"/></td>
+                    <td  class="text-truncate"><c:out value="${product.createDate}"/></td>
+                    <td  class="text-truncate"><c:out value="${product.modifyDate}"/></td>
                 </tr>
             </c:forEach>
         </tbody>
@@ -83,8 +100,8 @@
 	                    <c:if test="${not empty search.price}">
 	                        <c:param name="price" value="${search.price}" />
 	                    </c:if>
-	                    <c:if test="${not empty search.categoryId}">
-	                        <c:param name="categoryId" value="${search.categoryId}" />
+	                    <c:if test="${not empty search.categoryName}">
+	                        <c:param name="categoryName" value="${search.categoryName}" />
 	                    </c:if>
 	                </c:url>
 	                <a class="page-link" href="<c:out value='${prevPageUrl}'/>" aria-label="Previous">
@@ -108,8 +125,8 @@
 	                    <c:if test="${not empty search.price}">
 	                        <c:param name="price" value="${search.price}" />
 	                    </c:if>
-	                    <c:if test="${not empty search.categoryId}">
-	                        <c:param name="categoryId" value="${search.categoryId}" />
+	                    <c:if test="${not empty search.categoryName}">
+	                        <c:param name="categoryName" value="${search.categoryName}" />
 	                    </c:if>
 	                </c:url>
 	                <a class="page-link" href="<c:out value='${pageUrl}'/>">
@@ -133,8 +150,8 @@
 	                    <c:if test="${not empty search.price}">
 	                        <c:param name="price" value="${search.price}" />
 	                    </c:if>
-	                    <c:if test="${not empty search.categoryId}">
-	                        <c:param name="categoryId" value="${search.categoryId}" />
+	                    <c:if test="${not empty search.categoryName}">
+	                        <c:param name="categoryName" value="${search.categoryName}" />
 	                    </c:if>
 	                </c:url>
 	                <a class="page-link" href="<c:out value='${nextPageUrl}'/>" aria-label="Next">

@@ -9,15 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.portfolioBo.category.dto.CategoryDto.ActiveCategoryListResult;
 import com.portfolioBo.category.service.CategoryService;
 import com.portfolioBo.common.Paging;
-import com.portfolioBo.product.dto.ProductDto;
 import com.portfolioBo.product.dto.ProductDto.ProductDetailResult;
+import com.portfolioBo.product.dto.ProductDto.ProductListResult;
 import com.portfolioBo.product.dto.ProductRequest.ProductListRequest;
 import com.portfolioBo.product.dto.ProductRequest.ProductSaveRequest;
 import com.portfolioBo.product.dto.ProductRequest.ProductUpdateRequest;
@@ -52,7 +51,7 @@ public class ProductController {
         	ProductListServiceDto productListServiceDto=new ProductListServiceDto(productListRequest);
         	Paging Paging=new Paging(productListRequest.getPage(), pagingSize,pagingListSize);
         	productListServiceDto.setPaging(Paging);
-        	List<ProductDto> result=productService.getProductList(productListServiceDto);
+        	List<ProductListResult> result=productService.getProductList(productListServiceDto);
         	model.addAttribute("product", result);
         	model.addAttribute("paging", Paging);
         	model.addAttribute("search", productListRequest);

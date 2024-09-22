@@ -12,10 +12,10 @@ public class ReviewRequest {
     @Getter
     @Setter
 	public static class ReviewListRequest {
-	    private Integer reviewId;  
-	    private Integer productId;  
-	    private String userId;
+	    private String productName;
+	    private String userNickName;
 	    private String useYn;
+	    private String replyYn;
 	    private int page;
 	}
     @Getter

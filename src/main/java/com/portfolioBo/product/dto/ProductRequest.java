@@ -18,7 +18,7 @@ public class ProductRequest {
 	    private String name;
 	    private String useYn;
 	    private Integer price;
-	    private Integer categoryId;
+	    private String categoryName;
 	    private int page;
 	}
     

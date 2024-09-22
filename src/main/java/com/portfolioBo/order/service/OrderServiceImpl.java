@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.portfolioBo.order.dao.OrderDao;
 import com.portfolioBo.order.dao.OrderItemDao;
-import com.portfolioBo.order.dto.OrderDto;
-import com.portfolioBo.order.dto.OrderDto.OrdersListQuery;
-import com.portfolioBo.order.dto.OrderDto.OrderItem;
+import com.portfolioBo.order.dto.OrderDto.OrderDetailResult;
+import com.portfolioBo.order.dto.OrderDto.OrderItemUpdateQuery;
 import com.portfolioBo.order.dto.OrderDto.OrdersListCntQuery;
+import com.portfolioBo.order.dto.OrderDto.OrdersListQuery;
+import com.portfolioBo.order.dto.OrderDto.OrdersListResult;
+import com.portfolioBo.order.dto.OrderServiceDto.OrderItemUpdateServiceDto;
 import com.portfolioBo.order.dto.OrderServiceDto.OrdersListServiceDto;
 
 @Service
@@ -23,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
 	OrderItemDao orderItemDao;
 
 	@Override
-	public List<OrderDto> getOrdersList(OrdersListServiceDto ordersListServiceDto) {
+	public List<OrdersListResult> getOrdersList(OrdersListServiceDto ordersListServiceDto) {
 		OrdersListQuery ordersListQuery=new OrdersListQuery(ordersListServiceDto);
 		
 		int listCnt=orderDao.selectOrdersListCnt(new OrdersListCntQuery(ordersListServiceDto));
@@ -32,8 +34,16 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<OrderItem> getOrdersDetail(Integer orderId) {
-		return orderItemDao.selectOrderItemListByOrderId(orderId);
+	public OrderDetailResult getOrdersDetail(Integer orderId) {
+		return orderDao.selectOrderDetail(orderId);
 	}
+
+	@Override
+	public int updateOrderItem(OrderItemUpdateServiceDto orderItemUpdateServiceDto) {
+		OrderItemUpdateQuery orderItemUpdateQuery=new OrderItemUpdateQuery(orderItemUpdateServiceDto);
+		int result=orderItemDao.updateOrderItem(orderItemUpdateQuery);
+		return result;
+	}
+
 
 }

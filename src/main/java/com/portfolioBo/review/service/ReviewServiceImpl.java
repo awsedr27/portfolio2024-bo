@@ -11,8 +11,10 @@ import com.portfolioBo.product.dto.ProductDto;
 import com.portfolioBo.product.dto.ProductDto.ProductUpdateQuery;
 import com.portfolioBo.review.dao.ReviewDao;
 import com.portfolioBo.review.dto.ReviewDto;
+import com.portfolioBo.review.dto.ReviewDto.ReviewDetailResult;
 import com.portfolioBo.review.dto.ReviewDto.ReviewListCntQuery;
 import com.portfolioBo.review.dto.ReviewDto.ReviewListQuery;
+import com.portfolioBo.review.dto.ReviewDto.ReviewListResult;
 import com.portfolioBo.review.dto.ReviewDto.ReviewUpdateQuery;
 import com.portfolioBo.review.dto.ReviewServiceDto.ReviewListServiceDto;
 import com.portfolioBo.review.dto.ReviewServiceDto.ReviewUpdateServiceDto;
@@ -24,7 +26,7 @@ public class ReviewServiceImpl implements ReviewService {
 	ReviewDao reviewDao;
 
 	@Override
-	public List<ReviewDto> getReviewList(ReviewListServiceDto reviewListServiceDto) {
+	public List<ReviewListResult> getReviewList(ReviewListServiceDto reviewListServiceDto) {
 		ReviewListQuery reviewListQuery=new ReviewListQuery(reviewListServiceDto);
 		int listCnt=reviewDao.selectReviewListCnt(new ReviewListCntQuery(reviewListServiceDto));
 		reviewListQuery.getPaging().setTotalRecordCount(listCnt);
@@ -32,8 +34,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public ReviewDto getReviewDetail(Integer reviewId) {
-		return reviewDao.selectReview(reviewId);
+	public ReviewDetailResult getReviewDetail(Integer reviewId) {
+		return reviewDao.selectReviewDetail(reviewId);
 	}
 
 	@Override

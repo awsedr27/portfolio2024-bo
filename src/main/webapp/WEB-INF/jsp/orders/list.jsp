@@ -4,37 +4,38 @@
 
 
 <div class="container">
- <h1 class="mb-4">주문 목록</h1>
+ <h1 class="mb-4 mt-4">주문 목록</h1>
  
 	<form method="get" action="/order/list" class="form-inline mb-3">
-        <div class="form-group mr-2">
-            <label for="orderId" class="mr-2">Order ID</label>
+        <div class="form-group me-2">
+            <label for="orderId" class="me-2">주문번호</label>
             <input type="number" id="orderId" name="orderId" class="form-control" value="<c:out value="${search.orderId}"/>">
         </div>
-        <div class="form-group mr-2">
-            <label for="userId" class="mr-2">User ID</label>
-            <input type="number" id="userId" name="userId" class="form-control" value="<c:out value="${search.userId}"/>">
+        <div class="form-group me-2">
+            <label for="userNickName" class="me-2">유저닉네임</label>
+            <input type="number" id="userNickName" name="userNickName" class="form-control" value="<c:out value="${search.userNickName}"/>">
         </div>
-        <div class="form-group mr-2">
-            <label for="status" class="mr-2">Status</label>
+        <div class="form-group me-2">
+            <label for="status" class="me-2">주문상태</label>
             <select id="status" name="status" class="form-control">
                 <option value="">All</option>
-                <option value="Pending" <c:if test="${param.status == 'Pending'}">selected</c:if> >Pending</option>
-                <option value="Completed" <c:if test="${param.status == 'Completed'}">selected</c:if> >Completed</option>
-                <option value="Cancelled" <c:if test="${param.status == 'Cancelled'}">selected</c:if> >Cancelled</option>
+                <option value="PENDING" <c:if test="${param.status == 'PENDING'}">selected</c:if> >준비중</option>
+                <option value="PROCESSING" <c:if test="${param.status == 'PROCESSING'}">selected</c:if> >진행중</option>
+                <option value="SHIPPED" <c:if test="${param.status == 'SHIPPED'}">selected</c:if> >배송중</option>
+                <option value="COMPLETED" <c:if test="${param.status == 'COMPLETED'}">selected</c:if> >완료</option>
+                <option value="CANCELLED" <c:if test="${param.status == 'CANCELLED'}">selected</c:if> >취소</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
+        <button type="submit" class="btn btn-primary mt-4">검색</button>
     </form>
-    <table class="table table-hover">
+    <table class="table table-hover" style="table-layout: fixed;">
         <thead>
             <tr>
-                <th>ORDER_ID</th>
-                <th>USER_ID</th>
-                <th>TOTAL_PRICE</th>
-                <th>STATUS</th>
-                <th>CREATE_DATE</th>
-                <th>MODIFY_DATE</th>
+                <th>주문번호</th>
+                <th>유저닉네임</th>
+                <th>전체 가격</th>
+                <th>주문상태</th>
+                <th>주문일</th>
             </tr>
         </thead>
         <tbody>
@@ -43,12 +44,20 @@
 	            	<c:param name="orderId" value="${order.orderId}" />
 	            </c:url>
 				<tr style="cursor: pointer;" onclick="window.location.href='<c:out value="${OrderDetailUrl}"/>'">
-                    <td><c:out value="${order.orderId}"/></td>
-                    <td><c:out value="${order.userId}"/></td>
-                    <td><c:out value="${order.totalPrice}"/></td>
-                    <td><c:out value="${order.status}"/></td>
-                    <td><c:out value="${order.createDate}"/></td>
-                    <td><c:out value="${order.modifyDate}"/></td>
+                    <td class="text-truncate"><c:out value="${order.orderId}"/></td>
+                    <td class="text-truncate"><c:out value="${order.userNickName}"/></td>
+                    <td class="text-truncate"><c:out value="${order.totalPrice}"/></td>
+                    <td class="text-truncate">
+					    <c:choose>
+					        <c:when test="${order.status == 'PENDING'}">준비중</c:when>
+					        <c:when test="${order.status == 'PROCESSING'}">진행중</c:when>
+					        <c:when test="${order.status == 'SHIPPED'}">배송중</c:when>
+					        <c:when test="${order.status == 'COMPLETED'}">완료</c:when>
+					        <c:when test="${order.status == 'CANCELLED'}">취소</c:when>
+					        <c:otherwise>알 수 없음</c:otherwise>
+					    </c:choose>
+					</td>
+                    <td class="text-truncate"><c:out value="${order.createDate}"/></td>
                 </tr>
             </c:forEach>
         </tbody>
@@ -63,8 +72,8 @@
 	                    <c:if test="${not empty search.orderId}">
 	                        <c:param name="orderId" value="${search.orderId}" />
 	                    </c:if>
-	                    <c:if test="${not empty search.userId}">
-	                        <c:param name="userId" value="${search.userId}" />
+	                    <c:if test="${not empty search.userNickName}">
+	                        <c:param name="userNickName" value="${search.userNickName}" />
 	                    </c:if>
 	                    <c:if test="${not empty search.status}">
 	                        <c:param name="status" value="${search.status}" />
@@ -82,8 +91,8 @@
 	                    <c:if test="${not empty search.orderId}">
 	                        <c:param name="orderId" value="${search.orderId}" />
 	                    </c:if>
-	                    <c:if test="${not empty search.userId}">
-	                        <c:param name="userId" value="${search.userId}" />
+	                    <c:if test="${not empty search.userNickName}">
+	                        <c:param name="userNickName" value="${search.userNickName}" />
 	                    </c:if>
 	                    <c:if test="${not empty search.status}">
 	                        <c:param name="status" value="${search.status}" />
@@ -101,8 +110,8 @@
 	                    <c:if test="${not empty search.orderId}">
 	                        <c:param name="orderId" value="${search.orderId}" />
 	                    </c:if>
-	                    <c:if test="${not empty search.userId}">
-	                        <c:param name="userId" value="${search.userId}" />
+	                    <c:if test="${not empty search.userNickName}">
+	                        <c:param name="userNickName" value="${search.userNickName}" />
 	                    </c:if>
 	                    <c:if test="${not empty search.status}">
 	                        <c:param name="status" value="${search.status}" />

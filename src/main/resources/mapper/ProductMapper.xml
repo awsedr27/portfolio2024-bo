@@ -37,36 +37,39 @@
         LEFT OUTER JOIN file f ON f.reference_id =p.product_id AND f.use_yn ='Y' AND f.reference_type ='PRODUCT_IMG'
         WHERE p.product_id =#{productId}
     </select>
-    <select id="selectProductList" parameterType="com.portfolioBo.product.dto.ProductDto$ProductListQuery" resultType="com.portfolioBo.product.dto.ProductDto">
+    <select id="selectProductList" parameterType="com.portfolioBo.product.dto.ProductDto$ProductListQuery" resultType="com.portfolioBo.product.dto.ProductDto$ProductListResult">
         SELECT 
-			product_id,
-			name,
-			description,
-			use_yn,
-			price,
-			category_id,
-			create_date,
-			modify_date
+			p.product_id,
+			p.name,
+			p.description,
+			p.use_yn,
+			p.price,
+			c.name as categoryName,
+			p.create_date,
+			p.modify_date,
+			CONCAT(f.file_id, '.', f.file_type) AS imageUrl
         FROM 
-            product
+            product p
+        LEFT OUTER JOIN file f ON f.reference_id =p.product_id AND f.use_yn ='Y' AND f.reference_type ='PRODUCT_IMG'
+        LEFT OUTER JOIN category c ON c.category_id =p.category_id 
         WHERE
             1=1
             <if test="productId != null">
-                AND product_id = #{productId}
+                AND p.product_id = #{productId}
             </if>
             <if test="name != null and name != ''">
-                AND name LIKE CONCAT('%', #{name}, '%')
+                AND p.name LIKE CONCAT('%', #{name}, '%')
             </if>
             <if test="useYn != null and useYn != ''">
-                AND use_yn = #{useYn}
+                AND p.use_yn = #{useYn}
             </if>
             <if test="price != null">
-                AND price = #{price}
+                AND p.price = #{price}
             </if>
-            <if test="categoryId != null">
-                AND category_id = #{categoryId}
+            <if test="categoryName != null and categoryName != ''">
+                AND c.name LIKE CONCAT('%', #{categoryName}, '%')
             </if>
-            ORDER BY create_date DESC
+            ORDER BY p.create_date DESC
 			LIMIT #{paging.startRecordIndex}, #{paging.pageSize}
     
     </select>
@@ -74,23 +77,25 @@
         SELECT 
         	COUNT(*)
         FROM 
-            product
+            product p
+        LEFT OUTER JOIN file f ON f.reference_id =p.product_id AND f.use_yn ='Y' AND f.reference_type ='PRODUCT_IMG'
+        LEFT OUTER JOIN category c ON c.category_id =p.category_id 
         WHERE
             1=1
             <if test="productId != null">
-                AND product_id = #{productId}
+                AND p.product_id = #{productId}
             </if>
             <if test="name != null and name != ''">
-                AND name LIKE CONCAT('%', #{name}, '%')
+                AND p.name LIKE CONCAT('%', #{name}, '%')
             </if>
             <if test="useYn != null and useYn != ''">
-                AND use_yn = #{useYn}
+                AND p.use_yn = #{useYn}
             </if>
             <if test="price != null">
-                AND price = #{price}
+                AND p.price = #{price}
             </if>
-            <if test="categoryId != null">
-                AND category_id = #{categoryId}
+            <if test="categoryName != null and categoryName != ''">
+                AND c.name LIKE CONCAT('%', #{categoryName}, '%')
             </if>
     </select>
     <insert id="insertProduct" parameterType="com.portfolioBo.product.dto.ProductDto$ProductSaveQuery" useGeneratedKeys="true" keyProperty="productId">

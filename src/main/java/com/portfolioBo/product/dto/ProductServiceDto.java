@@ -22,7 +22,7 @@ public class ProductServiceDto {
 	    private String name;
 	    private String useYn;
 	    private Integer price;
-	    private Integer categoryId;
+	    private String categoryName;
 	    private Paging paging;
 	    public ProductListServiceDto() {
 	    	
@@ -32,7 +32,7 @@ public class ProductServiceDto {
 			this.name = request.getName();
 			this.useYn = request.getUseYn();
 			this.price = request.getPrice();
-			this.categoryId = request.getCategoryId();
+			this.categoryName = request.getCategoryName();
 		}
 	    
 	}

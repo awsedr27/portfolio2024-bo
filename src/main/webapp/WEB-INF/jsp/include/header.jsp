@@ -9,14 +9,22 @@
 <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet">
     <style>
         body {
-            padding-bottom: 60px; 
+            display: flex;
+		    flex-direction: column;
+		    height: 100vh;
+		    padding-bottom: 0; 
         }
         #relative-footer {
-            position: relative;
-            bottom: 0;
-            width: 100%;
-            height: 60px; 
+			height: 60px;
+	    	text-align: center;
+        }
+        .container{
+        	flex:1;
+        }
+        td, tr, th{
             text-align: center;
+		    vertical-align: middle;
+		    height: 100px;
         }
     </style>
 </head>

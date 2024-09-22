@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.portfolioBo.common.Paging;
 import com.portfolioBo.review.dto.ReviewDto;
+import com.portfolioBo.review.dto.ReviewDto.ReviewDetailResult;
+import com.portfolioBo.review.dto.ReviewDto.ReviewListResult;
 import com.portfolioBo.review.dto.ReviewRequest.ReviewListRequest;
 import com.portfolioBo.review.dto.ReviewRequest.ReviewUpdateRequest;
 import com.portfolioBo.review.dto.ReviewServiceDto.ReviewListServiceDto;
@@ -43,7 +45,7 @@ public class ReviewController {
     		ReviewListServiceDto reviewListServiceDto=new ReviewListServiceDto(reviewListRequest);
         	Paging Paging=new Paging(reviewListRequest.getPage(), pagingSize,pagingListSize);
         	reviewListServiceDto.setPaging(Paging);
-        	List<ReviewDto> result=reviewService.getReviewList(reviewListServiceDto);
+        	List<ReviewListResult> result=reviewService.getReviewList(reviewListServiceDto);
         	model.addAttribute("reviewList", result);
         	model.addAttribute("paging", Paging);
         	model.addAttribute("search", reviewListRequest);
@@ -53,12 +55,11 @@ public class ReviewController {
     		model.addAttribute("errorMessage", "리뷰정보를 불러오는데 실패했습니다");
     		return "/error";
     	}
-
     }
     @GetMapping("/detail")
     public String reviewDetail(@RequestParam(value = "reviewId", required = true) Integer reviewId, Model model) {
     	try {
-            	ReviewDto review=reviewService.getReviewDetail(reviewId); 
+            	ReviewDetailResult review=reviewService.getReviewDetail(reviewId); 
             	model.addAttribute("review", review);
 
             return "/review/detail";

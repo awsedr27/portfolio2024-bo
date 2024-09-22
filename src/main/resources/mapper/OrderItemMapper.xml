@@ -4,19 +4,11 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.portfolioBo.order.dao.OrderItemDao">
-    <select id="selectOrderItemListByOrderId" parameterType="Integer" resultType="com.portfolioBo.order.dto.OrderDto$OrderItem">
-        SELECT 
-			order_item_id,
-			order_id,
-			product_id,
-			quantity,
-			price,
-			create_date,
-			modify_date
-        FROM 
-            orderItems
-        WHERE
-        	order_id=#{orderId}
-            ORDER BY create_date DESC
-    </select>
+
+	<update id="updateOrderItem" parameterType="com.portfolioBo.order.dto.OrderDto$OrderItemUpdateQuery">
+	    UPDATE orderItems
+        SET status = #{orderItemStatus}
+        WHERE order_item_id = #{orderItemId}
+	</update>
+
 </mapper>

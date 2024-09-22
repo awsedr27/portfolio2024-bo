@@ -3,43 +3,47 @@
 <%@ include file="../include/header.jsp" %>
 
 <div class="container">
-    <h1 class="mb-4">리뷰 관리</h1>
+    <h1 class="mb-4 mt-4">리뷰 관리</h1>
     
     <form method="get" action="/review/list" class="form-inline mb-3">
-        <div class="form-group mr-2">
-            <label for="reviewId" class="mr-2">Review ID</label>
-            <input type="number" id="reviewId" name="reviewId" class="form-control" value="<c:out value="${search.reviewId}"/>">
+        <div class="form-group me-2">
+            <label for="productName" class="me-2">상품이름</label>
+            <input type="text" id="productName" name="productName" class="form-control" value="<c:out value="${search.productName}"/>">
         </div>
-        <div class="form-group mr-2">
-            <label for="productId" class="mr-2">Product ID</label>
-            <input type="number" id="productId" name="productId" class="form-control" value="<c:out value="${search.productId}"/>">
+        <div class="form-group me-2">
+            <label for="userNickName" class="me-2">유저닉네임</label>
+            <input type="text" id="userNickName" name="userNickName" class="form-control" value="<c:out value="${search.userNickName}"/>">
         </div>
-        <div class="form-group mr-2">
-            <label for="userId" class="mr-2">User ID</label>
-            <input type="text" id="userId" name="userId" class="form-control" value="<c:out value="${search.userId}"/>">
-        </div>
-        <div class="form-group mr-2">
-            <label for="useYn" class="mr-2">Use Y/N</label>
+        <div class="form-group me-2">
+            <label for="useYn" class="me-2">게시여부</label>
             <select id="useYn" name="useYn" class="form-control">
                 <option value="">All</option>
-                <option value="Y" <c:if test="${search.useYn == 'Y'}">selected</c:if> >Y</option>
-                <option value="N" <c:if test="${search.useYn == 'N'}">selected</c:if> >N</option>
+                <option value="Y" <c:if test="${search.useYn == 'Y'}">selected</c:if> >게시된리뷰</option>
+                <option value="N" <c:if test="${search.useYn == 'N'}">selected</c:if> >삭제된리뷰</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
+        <div class="form-group me-2">
+            <label for="replyYn" class="me-2">답변여부</label>
+            <select id="replyYn" name="replyYn" class="form-control">
+                <option value="">All</option>
+                <option value="Y" <c:if test="${search.replyYn == 'Y'}">selected</c:if> >답변완료</option>
+                <option value="N" <c:if test="${search.replyYn == 'N'}">selected</c:if> >답변미완료</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-4">검색</button>
     </form>
-    <table class="table table-hover">
+    <table class="table table-hover" style="table-layout: fixed;">
         <thead>
             <tr>
-                <th>Review ID</th>
-                <th>Product ID</th>
-                <th>User ID</th>
-                <th>Use Y/N</th>
-                <th>Rating</th>
-                <th>Comment</th>
-                <th>Reply</th>
-                <th>Create Date</th>
-                <th>Modify Date</th>
+                <th>리뷰번호</th>
+                <th>상품이름</th>
+                <th>유저닉네임</th>
+                <th>게시여부</th>
+                <th>별점</th>
+                <th>리뷰내용</th>
+                <th>관리자대답유무</th>
+                <th>작성일</th>
+                <th>수정일</th>
             </tr>
         </thead>
         <tbody>
@@ -48,15 +52,15 @@
                     <c:param name="reviewId" value="${review.reviewId}" />
                 </c:url>
                 <tr style="cursor: pointer;" onclick="window.location.href='<c:out value="${ReviewDetailUrl}"/>'">
-                    <td><c:out value="${review.reviewId}"/></td>
-                    <td><c:out value="${review.productId}"/></td>
-                    <td><c:out value="${review.userId}"/></td>
-                    <td><c:out value="${review.useYn}"/></td>
-                    <td><c:out value="${review.rating}"/></td>
-                    <td><c:out value="${review.comment}"/></td>
-                    <td><c:out value="${review.reply}"/></td>
-                    <td><c:out value="${review.createDate}"/></td>
-                    <td><c:out value="${review.modifyDate}"/></td>
+                    <td class="text-truncate"><c:out value="${review.reviewId}"/></td>
+                    <td class="text-truncate"><c:out value="${review.productName}"/></td>
+                    <td class="text-truncate"><c:out value="${review.userNickName}"/></td>
+                    <td class="text-truncate"><c:out value="${review.useYn}"/></td>
+                    <td class="text-truncate"><c:out value="${review.rating}"/></td>
+                    <td class="text-truncate"><c:out value="${review.comment}"/></td>
+                    <td class="text-truncate"><c:out value="${review.reply}"/></td>
+                    <td class="text-truncate"><c:out value="${review.createDate}"/></td>
+                    <td class="text-truncate"><c:out value="${review.modifyDate}"/></td>
                 </tr>
             </c:forEach>
         </tbody>
@@ -68,17 +72,17 @@
                 <li class="page-item">
                     <c:url var="prevPageUrl" value="/review/list">
                         <c:param name="page" value="${paging.firstPage - 1}" />
-                        <c:if test="${not empty search.reviewId}">
-                            <c:param name="reviewId" value="${search.reviewId}" />
+                        <c:if test="${not empty search.productName}">
+                            <c:param name="productName" value="${search.productName}" />
                         </c:if>
-                        <c:if test="${not empty search.productId}">
-                            <c:param name="productId" value="${search.productId}" />
-                        </c:if>
-                        <c:if test="${not empty search.userId}">
-                            <c:param name="userId" value="${search.userId}" />
+                        <c:if test="${not empty search.userNickName}">
+                            <c:param name="userNickName" value="${search.userNickName}" />
                         </c:if>
                         <c:if test="${not empty search.useYn}">
                             <c:param name="useYn" value="${search.useYn}" />
+                        </c:if>
+                        <c:if test="${not empty search.replyYn}">
+                            <c:param name="replyYn" value="${search.replyYn}" />
                         </c:if>
                     </c:url>
                     <a class="page-link" href="<c:out value='${prevPageUrl}'/>" aria-label="Previous">
@@ -90,17 +94,17 @@
                 <li class="page-item ${pageNum == paging.currentPage ? 'active' : ''}">
                     <c:url var="pageUrl" value="/review/list">
                         <c:param name="page" value="${pageNum}" />
-                        <c:if test="${not empty search.reviewId}">
-                            <c:param name="reviewId" value="${search.reviewId}" />
+                        <c:if test="${not empty search.productName}">
+                            <c:param name="productName" value="${search.productName}" />
                         </c:if>
-                        <c:if test="${not empty search.productId}">
-                            <c:param name="productId" value="${search.productId}" />
-                        </c:if>
-                        <c:if test="${not empty search.userId}">
-                            <c:param name="userId" value="${search.userId}" />
+                        <c:if test="${not empty search.userNickName}">
+                            <c:param name="userNickName" value="${search.userNickName}" />
                         </c:if>
                         <c:if test="${not empty search.useYn}">
                             <c:param name="useYn" value="${search.useYn}" />
+                        </c:if>
+                        <c:if test="${not empty search.replyYn}">
+                            <c:param name="replyYn" value="${search.replyYn}" />
                         </c:if>
                     </c:url>
                     <a class="page-link" href="<c:out value='${pageUrl}'/>">
@@ -112,17 +116,17 @@
                 <li class="page-item">
                     <c:url var="nextPageUrl" value="/review/list">
                         <c:param name="page" value="${paging.lastPage + 1}" />
-                        <c:if test="${not empty search.reviewId}">
-                            <c:param name="reviewId" value="${search.reviewId}" />
+                        <c:if test="${not empty search.productName}">
+                            <c:param name="productName" value="${search.productName}" />
                         </c:if>
-                        <c:if test="${not empty search.productId}">
-                            <c:param name="productId" value="${search.productId}" />
-                        </c:if>
-                        <c:if test="${not empty search.userId}">
-                            <c:param name="userId" value="${search.userId}" />
+                        <c:if test="${not empty search.userNickName}">
+                            <c:param name="userNickName" value="${search.userNickName}" />
                         </c:if>
                         <c:if test="${not empty search.useYn}">
                             <c:param name="useYn" value="${search.useYn}" />
+                        </c:if>
+                        <c:if test="${not empty search.replyYn}">
+                            <c:param name="replyYn" value="${search.replyYn}" />
                         </c:if>
                     </c:url>
                     <a class="page-link" href="<c:out value='${nextPageUrl}'/>" aria-label="Next">

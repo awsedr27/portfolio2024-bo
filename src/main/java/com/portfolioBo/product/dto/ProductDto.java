@@ -25,6 +25,21 @@ public class ProductDto {
     
     @Getter
     @Setter
+    public static class ProductListResult {
+        private Integer productId;
+        private String name;
+        private String description;
+        private String useYn;
+        private Integer price;
+        private String categoryName;
+        private Integer quantity;
+        private Timestamp createDate;
+        private Timestamp modifyDate;
+        private String imageUrl;
+    }
+    
+    @Getter
+    @Setter
     public static class ProductDetailResult {
         private Integer productId;
         private String name;
@@ -49,14 +64,14 @@ public class ProductDto {
 			this.name = productServiceDto.getName();
 			this.useYn = productServiceDto.getUseYn();
 			this.price = productServiceDto.getPrice();
-			this.categoryId = productServiceDto.getCategoryId();
+			this.categoryName = productServiceDto.getCategoryName();
 			this.paging=productServiceDto.getPaging();
 		}
 		private Integer productId;
         private String name;
         private String useYn;
         private Integer price;
-        private Integer categoryId;
+        private String categoryName;
         private Paging paging;
         
     }
@@ -72,13 +87,13 @@ public class ProductDto {
 			this.name = productServiceDto.getName();
 			this.useYn = productServiceDto.getUseYn();
 			this.price = productServiceDto.getPrice();
-			this.categoryId = productServiceDto.getCategoryId();
+			this.categoryName = productServiceDto.getCategoryName();
 		}
 		private Integer productId;
         private String name;
         private String useYn;
         private Integer price;
-        private Integer categoryId;        
+        private String categoryName;        
     }
     @Getter
     @Setter

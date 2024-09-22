@@ -17,10 +17,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewDto {
-	
     private Integer reviewId;  
-    private Integer productId;  
-    private String userId;
+    private Integer orderItemId;  
     private String useYn;
     private Integer rating;
     private String comment;
@@ -30,24 +28,51 @@ public class ReviewDto {
     
     @Getter
     @Setter
+    public static class ReviewDetailResult {
+        private Integer reviewId;  
+        private String productName;
+        private String userNickName;
+        private String useYn;
+        private Integer rating;
+        private String comment;
+        private String reply;
+        private Timestamp createDate;
+        private Timestamp modifyDate;
+    } 
+    
+    @Getter
+    @Setter
     public static class ReviewListQuery {
         public ReviewListQuery() {
         	
 		}
         public ReviewListQuery(ReviewListServiceDto serviceDto) {
-        	this.reviewId=serviceDto.getReviewId();
-        	this.productId=serviceDto.getProductId();
-        	this.userId=serviceDto.getUserId();
+        	this.productName=serviceDto.getProductName();
+        	this.userNickName=serviceDto.getUserNickName();
         	this.useYn=serviceDto.getUseYn();
+        	this.replyYn=serviceDto.getReplyYn();
         	this.paging=serviceDto.getPaging();
 
 		}
-	    private Integer reviewId;  
-	    private Integer productId;  
-	    private String userId;
+	    private String productName;
+	    private String userNickName;
 	    private String useYn;
+	    private String replyYn;
         private Paging paging;
         
+    }
+    @Getter
+    @Setter
+    public static class ReviewListResult {
+        private Integer reviewId;  
+        private String productName;  
+        private String userNickName;
+        private String useYn;
+        private Integer rating;
+        private String comment;
+        private String reply;
+        private Timestamp createDate;
+        private Timestamp modifyDate;
     }
     @Getter
     @Setter
@@ -56,15 +81,15 @@ public class ReviewDto {
         	
 		}
         public ReviewListCntQuery(ReviewListServiceDto serviceDto) {
-        	this.reviewId=serviceDto.getReviewId();
-        	this.productId=serviceDto.getProductId();
-        	this.userId=serviceDto.getUserId();
+        	this.productName=serviceDto.getProductName();
+        	this.userNickName=serviceDto.getUserNickName();
         	this.useYn=serviceDto.getUseYn();
+        	this.replyYn=serviceDto.getReplyYn();
 		}
-	    private Integer reviewId;  
-	    private Integer productId;  
-	    private String userId;
-	    private String useYn;  
+	    private String productName;
+	    private String userNickName;
+	    private String useYn;
+	    private String replyYn;
     }
     @Getter
     @Setter
