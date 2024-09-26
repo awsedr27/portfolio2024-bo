@@ -77,7 +77,7 @@ public class OrderController {
     	try {
     		OrderUpdateServiceDto OrderUpdateServiceDto=new OrderUpdateServiceDto(orderUpdateRequest);
     		int result=orderService.updateOrder(OrderUpdateServiceDto);
-    		return "redirect:/order/detail?orderId=" + orderUpdateRequest.getOrderId();
+    		return "redirect:/order/list";
     	}catch(Exception e) {
     		log.error("주문 업데이트에 실패."+e.toString());
     		model.addAttribute("errorMessage", "주문 업데이트에 실패했습니다");

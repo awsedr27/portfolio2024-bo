@@ -141,5 +141,19 @@ public class ProductDto {
         private Integer categoryId;    
         private Integer quantity;
     }
+    @Getter
+    @Setter
+	public static class ProductUpdateQuantityQuery {
+	    private Integer productId;
+	    private Integer quantity;
+	    public ProductUpdateQuantityQuery() {
+	    	
+	    }
+	    public ProductUpdateQuantityQuery(int productId,int quantity) {
+	    	this.productId=productId;
+	    	this.quantity=quantity;
+	    }
+	}
+    
     
 }

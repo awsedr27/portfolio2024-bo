@@ -7,7 +7,7 @@
     <h2 class="mb-4 mt-4">주문 정보</h2>
     
     
-    <form action="<c:url value="/order/update"/>" method="post">
+    <form action="<c:url value="/order/update"/>" method="post" onsubmit="return confirmSubmit()">
 	    <div class="form-group">
 	        <label for="orderId">주문번호</label>
 	        <input type="number" class="form-control" id="orderId" name="orderId" value="<c:out value='${order.orderId}'/>" readonly>
@@ -128,7 +128,7 @@
 function orderItemCancel(button) {
 	const orderId = ${order.orderId};
 	const orderItemId = button.getAttribute('data-order-item-id'); 
-    if (confirm("정말로 삭제하시겠습니까?")) {
+    if (confirm("정말로 주문 상품 취소하시겠습니까?")) {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = '/order/orderItem/cancel';
@@ -148,6 +148,14 @@ function orderItemCancel(button) {
         form.submit();
         document.body.removeChild(form); 
         
+    }
+}
+function confirmSubmit() {
+    const result = confirm("정말로 수정하시겠습니까?");
+    if (result) {
+        return true;
+    } else {
+        return false;
     }
 }
 </script>

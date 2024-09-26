@@ -15,6 +15,8 @@ public interface OrderItemDao {
 
 	OrderItemDto selectOrderItemWithExclusiveLock(Integer orderItemId);
 	
+	List<OrderItemDto> selectOrderItemsWithExclusiveLockByOrderId(Integer orderId);
+	
 	List<OrderItemDto> selectOrderItemListByOrderId(Integer orderId);
 
 	void updateOrderItemsStatusByOrderId(OrderItemsStatusUpdateByOrderIdQuery orderItemsStatusUpdateByOrderIdQuery);

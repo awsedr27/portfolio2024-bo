@@ -10,6 +10,7 @@ import com.portfolioBo.product.dto.ProductDto.ProductListCntQuery;
 import com.portfolioBo.product.dto.ProductDto.ProductListQuery;
 import com.portfolioBo.product.dto.ProductDto.ProductListResult;
 import com.portfolioBo.product.dto.ProductDto.ProductSaveQuery;
+import com.portfolioBo.product.dto.ProductDto.ProductUpdateQuantityQuery;
 import com.portfolioBo.product.dto.ProductDto.ProductUpdateQuery;
 
 @Mapper
@@ -26,5 +27,9 @@ public interface ProductDao {
 	int insertProduct(ProductSaveQuery productSaveQuery);
 
 	int updateProduct(ProductUpdateQuery productUpdateQuery);
+	
+	int updateQuantitiesPlus(List<ProductUpdateQuantityQuery> productList);
+	
+	
 
 }

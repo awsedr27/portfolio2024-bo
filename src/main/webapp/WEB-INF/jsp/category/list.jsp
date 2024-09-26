@@ -23,6 +23,9 @@
             </select>
         </div>
         <button type="submit" class="btn btn-primary mt-4">검색</button>
+        <a href="/category/detail" class="btn btn-primary mt-4">
+			카테고리 추가
+		</a>
     </form>
     <table class="table table-hover">
         <thead>

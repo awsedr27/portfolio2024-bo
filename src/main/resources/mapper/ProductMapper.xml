@@ -128,5 +128,19 @@
 		WHERE
 	    product_id = #{productId};
     </update>
+	<update id="updateQuantitiesPlus" parameterType="com.portfolioBo.product.dto.ProductDto$ProductUpdateQuantityQuery">
+	  UPDATE product
+	  SET quantity = quantity + CASE
+	    <foreach collection="productList" item="product" separator=" ">
+	      WHEN product_id = #{product.productId} THEN #{product.quantity}
+	    </foreach>
+	    ELSE 0
+	  END
+	  WHERE product_id IN
+	  <foreach collection="productList" item="product" open="(" separator="," close=")">
+	    #{product.productId}
+	  </foreach>
+	</update>
+    
     
 </mapper>

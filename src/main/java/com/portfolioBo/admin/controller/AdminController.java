@@ -41,7 +41,7 @@ public class AdminController {
     		}else {
     			HttpSession session = request.getSession();
                 session.setAttribute("admin", result);
-    			return "redirect:/home";
+    			return "redirect:/product/list";
     		}
     	}catch(Exception e) {
     		log.error("로그인에 실패했습니다."+e.toString());

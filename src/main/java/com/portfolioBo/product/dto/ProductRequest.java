@@ -28,7 +28,7 @@ public class ProductRequest {
     	@NotBlank(message = "Name cannot be blank")
         private String name;
         private String description;
-        @NotNull(message = "UseYn cannot be null")
+        @NotBlank(message = "UseYn cannot be null")
         @Pattern(regexp = "Y|N", message = "UseYn must be 'Y' or 'N'")
         private String useYn;
         @NotNull(message = "Price cannot be null")
@@ -55,7 +55,7 @@ public class ProductRequest {
     	@NotBlank(message = "Name cannot be blank")
         private String name;
         private String description;
-        @NotNull(message = "UseYn cannot be null")
+        @NotBlank(message = "UseYn cannot be null")
         @Pattern(regexp = "Y|N", message = "UseYn must be 'Y' or 'N'")
         private String useYn;
         @NotNull(message = "Price cannot be null")

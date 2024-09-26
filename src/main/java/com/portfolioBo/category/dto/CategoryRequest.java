@@ -23,7 +23,7 @@ public class CategoryRequest {
     	@NotBlank(message = "Name cannot be blank")
         private String name;
         private String description;
-        @NotNull(message = "UseYn cannot be null")
+        @NotBlank(message = "UseYn cannot be null")
         @Pattern(regexp = "Y|N", message = "UseYn must be 'Y' or 'N'")
         private String useYn;
 	}
@@ -37,7 +37,7 @@ public class CategoryRequest {
     	@NotBlank(message = "Name cannot be blank")
         private String name;
         private String description;
-        @NotNull(message = "UseYn cannot be null")
+        @NotBlank(message = "UseYn cannot be null")
         @Pattern(regexp = "Y|N", message = "UseYn must be 'Y' or 'N'")
         private String useYn;
 	}

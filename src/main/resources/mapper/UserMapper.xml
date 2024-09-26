@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.portfolioBo.user.dao.UserDao">
+    <select id="selectUserList" parameterType="com.portfolioBo.user.dto.UserDto$UserListQuery" resultType="com.portfolioBo.user.dto.UserDto$UserListResult">
+        SELECT 
+			user_id,
+			email,
+			nickname as userNickName,
+			use_yn,
+			create_date
+        FROM 
+            users
+        WHERE
+            1=1
+            <if test="userNickName != null and userNickName != ''">
+                AND nickname LIKE CONCAT('%', #{userNickName}, '%')
+            </if>
+            <if test="email != null and email != ''">
+                AND email LIKE CONCAT('%', #{email}, '%')
+            </if>
+            <if test="useYn != null and useYn != ''">
+                AND use_yn = #{useYn}
+            </if>
+            ORDER BY create_date DESC
+			LIMIT #{paging.startRecordIndex}, #{paging.pageSize}
+    </select>
+    <select id="selectUserListCnt" parameterType="com.portfolioBo.user.dto.UserDto$UserListQuery" resultType="Int">
+        SELECT 
+        	COUNT(*)
+        FROM 
+            users
+        WHERE
+            1=1
+            <if test="userNickName != null and userNickName != ''">
+                AND nickname LIKE CONCAT('%', #{userNickName}, '%')
+            </if>
+            <if test="email != null and email != ''">
+                AND email LIKE CONCAT('%', #{email}, '%')
+            </if>
+            <if test="useYn != null and useYn != ''">
+                AND use_yn = #{useYn}
+            </if>
+    </select>
+	<select id="selectUserDetail" parameterType="String" resultType="com.portfolioBo.user.dto.UserDto$UserDetailResult">
+        SELECT 
+			user_id,
+			username,
+			email,
+			nickname as userNickName,
+			use_yn,
+			create_date,
+			gender,
+			birthday,
+			birthyear
+        FROM 
+            users 
+        WHERE user_id=#{userId}
+    </select>
+    	<select id="selectUser" parameterType="String" resultType="com.portfolioBo.user.dto.UserDto">
+        SELECT 
+			user_id,
+			username,
+			email,
+			nickname as userNickName,
+			use_yn,
+			naver_sns_id,
+			create_date,
+			modify_date,
+			gender,
+			birthday,
+			birthyear
+        FROM 
+            users 
+        WHERE user_id=#{userId}
+    </select>
+    <update id="updateUser" parameterType="com.portfolioBo.user.dto.UserDto$UserUpdateQuery">
+	    UPDATE users
+		SET
+	    use_yn = #{useYn}
+		WHERE
+	    user_id = #{userId};
+    </update>
+</mapper>

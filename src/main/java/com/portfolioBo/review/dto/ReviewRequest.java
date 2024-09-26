@@ -25,7 +25,7 @@ public class ReviewRequest {
         @Min(value = 0, message = "reviewId must be greater than or equal to 0")
     	private Integer reviewId;
         private String reply;
-        @NotNull(message = "UseYn cannot be null")
+        @NotBlank(message = "UseYn cannot be null")
         @Pattern(regexp = "Y|N", message = "UseYn must be 'Y' or 'N'")
         private String useYn;
 	}
