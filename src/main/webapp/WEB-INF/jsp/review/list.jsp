@@ -3,7 +3,7 @@
 <%@ include file="../include/header.jsp" %>
 
 <div class="container">
-    <h1 class="mb-4 mt-4">리뷰 관리</h1>
+    <h1 class="mb-4 mt-4">리뷰 목록</h1>
     
     <form method="get" action="/review/list" class="form-inline mb-3">
         <div class="form-group me-2">

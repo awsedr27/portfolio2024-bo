@@ -137,7 +137,6 @@ public class OrderServiceImpl implements OrderService {
 		 }
 		 int result=orderDao.updateOrder(orderUpdateQuery);
 		 orderItemDao.updateOrderItemsStatusByOrderId(new OrderItemsStatusUpdateByOrderIdQuery(orderUpdateServiceDto));
-		 
 		return result;
 	}
 

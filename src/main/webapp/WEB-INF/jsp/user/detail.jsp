@@ -34,7 +34,7 @@
                     <option value="N" <c:if test="${user.useYn == 'N'}">selected</c:if>>탈퇴</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">수정</button>
+            <button type="submit" class="btn btn-primary mt-4">수정</button>
         </form>
     </div>
 

@@ -26,7 +26,7 @@
                 <option value="N" <c:if test="${category.useYn == 'N'}">selected</c:if>>아니오</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary"><c:out value="${category.categoryId == null ? '등록' : '수정'}"/></button>
+        <button type="submit" class="btn btn-primary mt-4"><c:out value="${category.categoryId == null ? '등록' : '수정'}"/></button>
     </form>
 </div>
 
